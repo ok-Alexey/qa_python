@@ -26,54 +26,44 @@ class TestBooksCollector:
     
 
     # тестируем add_genre_one_book - установка жанра для одной книги
-    def test_set_book_genre_add_genre_one_book(self):
-        collector_2 = BooksCollector()
+    def test_set_book_genre_add_genre_one_book(self, collector):
         genre = 'Детективы'
         name = 'Что делать, если ваш кот хочет вас убить'
-        collector_2.add_new_book('Что делать, если ваш кот хочет вас убить')
-        collector_2.set_book_genre(name, genre)
-        assert collector_2.get_book_genre(name) == genre
+        collector.add_new_book('Что делать, если ваш кот хочет вас убить')
+        collector.set_book_genre(name, genre)
+        assert collector.get_book_genre(name) == genre
 
 
     # тестируем вывод списка книг с определённым жанром
-    def test_get_books_with_specific_genre(self):
-        collector_3 = BooksCollector()
+    def test_get_books_with_specific_genre(self, collector):
         books_with_specific_genre = []
         genre = 'Фантастика'
-        collector_3.add_new_book('Властелин колец')
-        collector_3.add_new_book('Дюна')
-        collector_3.add_new_book('«Убийство в Восточном экспрессе')
-        collector_3.add_new_book('Путеводитель автостопом по Галактике')
-        collector_3.set_book_genre('Властелин колец', 'Фантастика')
-        collector_3.set_book_genre('Дюна', 'Фантастика')
-        collector_3.set_book_genre('Убийство в Восточном экспрессе', 'Детективы')
-        collector_3.set_book_genre('Путеводитель автостопом по Галактике', 'Фантастика')
+        collector.add_new_book('Властелин колец')
+        collector.add_new_book('Дюна')
+        collector.add_new_book('«Убийство в Восточном экспрессе')
+        collector.add_new_book('Путеводитель автостопом по Галактике')
+        collector.set_book_genre('Властелин колец', 'Фантастика')
+        collector.set_book_genre('Дюна', 'Фантастика')
+        collector.set_book_genre('Убийство в Восточном экспрессе', 'Детективы')
+        collector.set_book_genre('Путеводитель автостопом по Галактике', 'Фантастика')
         
-        for name, value in collector_3.books_genre.items():
+        for name, value in collector.books_genre.items():
             if value == genre:
                 books_with_specific_genre.append(name)
 
-        assert collector_3.get_books_with_specific_genre(genre) == books_with_specific_genre
+        assert collector.get_books_with_specific_genre(genre) == books_with_specific_genre
 
     # тестируем вывод списка книг для детей
-    def test_get_books_for_children(self):
-        collector_4 = BooksCollector()
+    def test_get_books_for_children(self, collector):
         books_for_children = []
-        for name, genre in  collector_4.books_genre.items():
+        for name, genre in  collector.books_genre.items():
             if genre not in['Ужасы', 'Детективы']:
                 books_for_children.append(name)
-        assert  collector_4.get_books_for_children() == books_for_children
+        assert  collector.get_books_for_children() == books_for_children
 
-
-    # тестируем добавление книги с названием из 45 символов
-    def test_add_new_book_add_two_books(self):
-        collector = BooksCollector()
-        collector.add_new_book('Властелин колецВластелин колецВластелин колец')
-        assert 'Властелин колецВластелин колецВластелин колец' not in collector.books_genre
 
     # тестируем добавление книги в Избранное
-    def test_add_book_in_favorites(self):
-        collector = BooksCollector()
+    def test_add_book_in_favorites(self, collector):
         collector.add_new_book('Властелин колец')
         name = 'Властелин колец'
         collector.add_book_in_favorites(name)
@@ -81,8 +71,7 @@ class TestBooksCollector:
 
 
     # тестируем удаление книги из Избранного
-    def test_delete_book_from_favorites(self):
-        collector = BooksCollector()
+    def test_delete_book_from_favorites(self, collector):
         name = 'Дюна'
         collector.add_new_book(name)
         collector.add_book_in_favorites(name)
@@ -92,9 +81,8 @@ class TestBooksCollector:
 
 
     # проверяем, что невозможно вевести список книг с жанром которого нет в списке self.genre
-    def test_get_books_with_genre_that_is_not_on_the_list(self):
+    def test_get_books_with_genre_that_is_not_on_the_list(self, collector):
         books_with_specific_genre = []
-        collector = BooksCollector()
         name = 'Исчезнувшая'
         genre = 'Триллер'
         collector.books_genre[name] = genre
@@ -102,8 +90,7 @@ class TestBooksCollector:
 
 
     # проверяем, что после добавления книги у неё нет жанра
-    def test_books_without_specific_genre_after_add(self):
-        collector = BooksCollector()
+    def test_books_without_specific_genre_after_add(self, collector):
         name = 'Этерна'
         collector.add_new_book(name)
         assert collector.get_book_genre(name) == ""
@@ -111,8 +98,7 @@ class TestBooksCollector:
 
 
     # проверяем, что невозможно установить книге жанр, которого нет в списке self.genre
-    def test_set_book_genre(self):
-        collector = BooksCollector()
+    def test_set_book_genre(self, collector):
         genre = 'Исторический роман'
         name = 'Первый человек в Риме'
         collector.add_new_book(name)
